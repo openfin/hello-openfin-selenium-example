@@ -24,7 +24,7 @@ Examples for the following WebDriver JS Bindings are included in this project:
  npm install -g mocha
  ```
 
-4. Install Hellp OpenFin app from http://www.openfin.co/app-gallery.html
+4. Install Hello OpenFin app from http://www.openfin.co/app-gallery.html
 
 ## Usage
 
