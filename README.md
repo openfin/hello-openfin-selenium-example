@@ -41,7 +41,7 @@ The following steps will help you run tests:
 
 2. Start chromedriver.exe located in root directory of this project
 
-3. Run the all tests
+3. Run all tests
  ```bash
  grunt
  ```
