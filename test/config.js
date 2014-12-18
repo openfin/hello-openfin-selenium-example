@@ -4,20 +4,23 @@
 
 "use strict";
 
-module.exports = {
-    driverOptions: {   // used by webdriver.io
+module.exports = (function() {
+    var config = {
         desiredCapabilities: {
-            browserName: 'chrome'
+            browserName: 'chrome',
+            chromeOptions: {
+                args: [],
+                extensions: [],
+                debuggerAddress: 'localhost:9090'
+            }
         },
-        host: 'localhost',
-        port: 8818,
-        logLevel: 'info'
-    },
-    driverServerUrl: "http://localhost:8818/wd/hub",   // used by selenium-webdriver
-    username: "wenjun@openfin.co",
-    password: "wenjun123",
-    messageToJid: "mark$openfin.co@openchat.co",
-    chatAppUrl: 'http://chat.openf.in/newopenchat/index.html?adapter=http:%2F%2Fchat.openf.in%2Fnewstrophe%2Findex.html',
-    testTimeout: 10000
+        remoteDriverHost: "10.211.55.4",
+        remoteDriverPort: 9515,
+        testTimeout: 10000
+    };
 
-};
+    config.remoteDriverUrl = "http://" + config.remoteDriverHost + ":" + config.remoteDriverPort;
+    return config;
+
+})();
+

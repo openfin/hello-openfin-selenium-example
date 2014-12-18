@@ -12,29 +12,23 @@
 var should = require('chai').should(),
     webdriver = require('webdriverio'),
     assert = require("assert"),
-    config = require("../../tests_config");
+    config = require("../../config");
 
 
-describe('Hello OpenFin App testing', function() {
+describe('Hello OpenFin App testing with webdriver.io', function() {
     var client, notificationButton, cpuInfoButton, cpuInfoExitButton;
 
     this.timeout(config.testTimeout);
 
     before(function() {
         var driverOptions = {
-            desiredCapabilities: {
-                browserName: 'chrome',
-                'chromeOptions': {
-                          args: [],
-                          extensions: [],
-                            debuggerAddress: 'localhost:9090'
-                        }
-            },
-            host: '10.211.55.4',
-            port: 9515,
+            desiredCapabilities: config.desiredCapabilities,
+            host: config.remoteDriverHost,
+            port: config.remoteDriverPort,
             logLevel: 'debug'
         };
         client = webdriver.remote(driverOptions).init();
+        client.requestHandler.startPath = "";  // webdriverio defaults it to '/wd/hub';
     });
 
     after(function(done) {

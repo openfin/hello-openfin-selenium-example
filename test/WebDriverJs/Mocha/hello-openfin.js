@@ -8,23 +8,18 @@ var expect = require('chai').expect,
     until = require('selenium-webdriver').until,
     webdriver = require('selenium-webdriver'),
     chrome = require('selenium-webdriver/chrome'),
-    config = require("../../tests_config");
+    config = require("../../config");
 
 
-describe('Hello OpenFin App testing', function() {
+describe('Hello OpenFin App testing with selenium-webdriver', function() {
     var client, notificationButton, cpuInfoButton, cpuInfoExitButton;
 
     this.timeout(config.testTimeout);
 
     before(function() {
         var capabilities = webdriver.Capabilities.chrome();
-
-        capabilities.set('chromeOptions', {
-          args: [],
-          extensions: [],
-            debuggerAddress: 'localhost:9090'
-        });
-        client = new webdriver.Builder().usingServer("http://10.211.55.4:9515").withCapabilities(capabilities).build();
+        capabilities.set('chromeOptions', config.desiredCapabilities.chromeOptions);
+        client = new webdriver.Builder().usingServer(config.remoteDriverUrl).withCapabilities(capabilities).build();
     });
 
     after(function(done) {

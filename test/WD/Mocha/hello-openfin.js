@@ -16,26 +16,17 @@ var wd = require('wd');
 // enables chai assertion chaining
 chaiAsPromised.transferPromiseness = wd.transferPromiseness;
 
-var config = require("../../tests_config");
+var config = require("../../config");
 
 
-describe('Hello OpenFin App testing', function() {
-    var client, notificationButton, cpuInfoButton, cpuInfoExitButton;
+describe('Hello OpenFin App testing with WD', function() {
+    var client;
 
     this.timeout(config.testTimeout);
 
     before(function() {
-        client = wd.promiseChainRemote(url.parse("http://10.211.55.4:9515"));
-
-        //        client = wd.remote(url.parse(config.driverServerUrl));
-        return client.init({
-            browserName: 'chrome',
-            'chromeOptions': {
-                      args: [],
-                      extensions: [],
-                        debuggerAddress: 'localhost:9090'
-                    }
-        });
+        client = wd.promiseChainRemote(url.parse(config.remoteDriverUrl));
+        return client.init(config.desiredCapabilities);
     });
 
     after(function(done) {
