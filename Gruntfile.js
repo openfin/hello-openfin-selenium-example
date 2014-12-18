@@ -11,17 +11,8 @@
 
 module.exports = function(grunt) {
     var tests = ['test/**/*.js'];
-
-    require('load-grunt-tasks')(grunt); // load all grunt modules
-
+    grunt.loadNpmTasks('grunt-mocha-test');
     grunt.initConfig({
-        watch: {
-            files: tests,
-            options: {
-                spawn: false,
-                event: ['added', 'changed']
-            }
-        },
         mochaTest: {
             test: {
                 options: {
@@ -32,7 +23,5 @@ module.exports = function(grunt) {
             }
         }
     });
-
     grunt.registerTask('default', 'mochaTest');
-
 };
