@@ -7,8 +7,8 @@ We have modified the latest Chrome driver to work with OpenFin runtime.  A copy 
 Examples for the following WebDriver JS Bindings are included in this project:
  
 1. [WebDriverJs / Selenium-WebDriver](http://www.seleniumhq.org/): test/WebDriverJs/Mocha
-2. [WebDriverIO*](http://webdriver.io/): test/WebDriverIO/Mocha
-3. [WD*](http://admc.io/wd/): test/WD/Mocha
+2. [WebDriverIO](http://webdriver.io/): test/WebDriverIO/Mocha
+3. [WD](http://admc.io/wd/): test/WD/Mocha
 
 ## Prerequisites
 
