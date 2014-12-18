@@ -14,7 +14,7 @@ module.exports = (function() {
                 debuggerAddress: 'localhost:9090'
             }
         },
-        remoteDriverHost: "10.211.55.4",
+        remoteDriverHost: "localhost",
         remoteDriverPort: 9515,
         testTimeout: 10000
     };
