@@ -66,7 +66,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function() {
         switchWindowByTitle("Hello OpenFin", done);
     });
 
-    it('Get OpenFin Runtime Version', function(done) {
+    it('Verify OpenFin Runtime Version', function(done) {
         expect(client).to.exist;
         executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
             "fin.desktop.System.getVersion(function(v) { callback(v); } );").then(function(v) {
