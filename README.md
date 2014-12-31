@@ -48,6 +48,6 @@ The following steps will help you run tests:
   
 4. Run the test for one bindings (replace [bindings] with WD, WebDriverIO or WebDriverJs)
  ```bash
- mocha test/[bindings]/Mochahello-openfin.js
+ mocha test/[bindings]/Mocha/hello-openfin.js
  ```
 
