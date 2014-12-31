@@ -56,10 +56,25 @@ describe('Hello OpenFin App testing with selenium-webdriver', function() {
         });
     }
 
+    function executeAsyncJavascript(script) {
+        return client.executeAsyncScript(script);
+    }
+
+
     it('Switch to Hello OpenFin Main window', function(done) {
         expect(client).to.exist;
         switchWindowByTitle("Hello OpenFin", done);
     });
+
+    it('Get OpenFin Runtime Version', function(done) {
+        expect(client).to.exist;
+        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+            "fin.desktop.System.getVersion(function(v) { callback(v); } );").then(function(v) {
+            expect(v).to.equal(config.expectedRuntimeVersion);
+                done();
+            });
+    });
+
 
     it("Find notification button", function(done) {
         expect(client).to.exist;
