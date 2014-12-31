@@ -68,11 +68,26 @@ describe('Hello OpenFin App testing with WD', function() {
         });
     }
 
+    function executeAsyncJavascript(script, resultCallback) {
+        client.executeAsync(script, resultCallback);
+    }
+
+    
     it('Switch to Hello OpenFin Main window', function(done) {
         should.exist(client);
         switchWindowByTitle("Hello OpenFin", done);
     });
 
+    it('Verify OpenFin Runtime Version', function(done) {
+        should.exist(client);
+        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+        "fin.desktop.System.getVersion(function(v) { callback(v); } );", function(err, version) {
+            should.not.exist(err);
+            should.exist(version);
+            version.should.equal(config.expectedRuntimeVersion);
+            done();
+        });
+    });
 
     it("Click notification button", function() {
         should.exist(client);

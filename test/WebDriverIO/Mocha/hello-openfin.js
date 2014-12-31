@@ -38,13 +38,6 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         });
     });
 
-    it('Switch to Hello OpenFin Main window', function(done) {
-        should.exist(client);
-        client.getTabIds(function(result) {
-            done();
-        });
-    });
-
 
     function switchWindow(windowHandle, callback) {
         client.switchTab(windowHandle, function(err) {
@@ -77,7 +70,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     }
 
     function executeAsyncJavascript(script, resultCallback) {
-        return client.executeAsync(script, resultCallback);
+        client.executeAsync(script, resultCallback);
     }
 
     
