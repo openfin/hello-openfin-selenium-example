@@ -15,7 +15,7 @@ module.exports = (function () {
                 args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app.json']
             }
         },
-        remoteDriverHost: "localhost",
+        remoteDriverHost: "10.211.55.5",
         remoteDriverPort: 9515,
         testTimeout: 10000,
         expectedRuntimeVersion: "3.0.1.5"
