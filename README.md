@@ -13,11 +13,11 @@ Examples for the following WebDriver JS Bindings are included in this project:
 ## Guidelines
 
 Since all HTML5 applications in OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.  Test code needs to provides
-OpenFinRVM and HTML5 app configuration to Chromedriver so it can start OpenFin Runtime and the html5 application before tests can run.  HelloOpenFinTest.main
-accepts arguments for location of OpenFinRVM and URL of configuration file for Hello OpenFin app.
+OpenFinRVM and HTML5 app configuration to Chromedriver so it can start OpenFin Runtime and the html5 application before tests can run.  config.js
+has location of OpenFinRVM and URL of configuration file for Hello OpenFin app.
 
-Since there are always multiple applications/windows active in OpenFin Runtime, any test needs to first select the window that is being targeted.  HelloOpenFinTest.switchWindow
-method selects the window by matching its title.
+Since there are always multiple applications/windows active in OpenFin Runtime, any test needs to first select the window that is being targeted.  Each test script has function that
+selects the window by matching its title.
 
 Since OpenFin Runtime is started by OpenFinRVM, Chromedriver does not have direct control of OpenFin Runtime.  Chromedriver must be started before any test runs.
 Once test is complete, it needs to shut down OpenFin Runtime by running javascript code "fin.desktop.System.exit();".  driver.quit() does not shut down OpenFin Runtime since
@@ -50,16 +50,14 @@ it does not have access.   We will improve how Chromedriver controls OpenFin Run
 
 The following steps will help you run tests:
 
-1. Start Hello OpenFin app
+1. Start chromedriver.exe located in root directory of this project.  You can specify --verbose comamnd line argument to get more loggings.
 
-2. Start chromedriver.exe located in root directory of this project
-
-3. Run all tests
+2. Run all tests
  ```bash
  grunt
  ```
   
-4. Run the test for one bindings (replace [bindings] with WD, WebDriverIO or WebDriverJs)
+3. Run the test for one bindings (replace [bindings] with WD, WebDriverIO or WebDriverJs)
  ```bash
  mocha test/[bindings]/Mocha/hello-openfin.js
  ```
