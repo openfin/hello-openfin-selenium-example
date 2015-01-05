@@ -26,7 +26,10 @@ describe('Hello OpenFin App testing with WD', function() {
 
     before(function() {
         client = wd.promiseChainRemote(url.parse(config.remoteDriverUrl));
-        return client.init(config.desiredCapabilities);
+        return client.init(config.desiredCapabilities)
+        .setImplicitWaitTimeout(config.testTimeout)
+        .setAsyncScriptTimeout(config.testTimeout)
+        .setPageLoadTimeout(config.testTimeout);
     });
 
     after(function(done) {
@@ -72,7 +75,10 @@ describe('Hello OpenFin App testing with WD', function() {
         client.executeAsync(script, resultCallback);
     }
 
-    
+    function executeJavascript(script, resultCallback) {
+        client.execute(script, resultCallback);
+    }
+
     it('Switch to Hello OpenFin Main window', function(done) {
         should.exist(client);
         switchWindowByTitle("Hello OpenFin", done);
@@ -114,5 +120,11 @@ describe('Hello OpenFin App testing with WD', function() {
         client.elementByCss("#close-app").click();
     });
 
+    it('Exit OpenFin Runtime', function (done) {
+        should.exist(client);
+        executeJavascript("fin.desktop.System.exit();", function () {
+            done();
+        });
+    });
 
 });

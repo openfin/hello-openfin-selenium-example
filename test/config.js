@@ -4,17 +4,18 @@
 
 "use strict";
 
-module.exports = (function() {
+module.exports = (function () {
     var config = {
         desiredCapabilities: {
             browserName: 'chrome',
             chromeOptions: {
-                args: [],
                 extensions: [],
-                debuggerAddress: 'localhost:9090'
+                debuggerAddress: 'localhost:9090',
+                binary: "OpenFinRVM.exe",
+                args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app.json']
             }
         },
-        remoteDriverHost: "localhost",
+        remoteDriverHost: "10.211.55.5",
         remoteDriverPort: 9515,
         testTimeout: 10000,
         expectedRuntimeVersion: "3.0.1.5"

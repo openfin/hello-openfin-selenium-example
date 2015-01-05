@@ -25,9 +25,12 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
             desiredCapabilities: config.desiredCapabilities,
             host: config.remoteDriverHost,
             port: config.remoteDriverPort,
+            waitforTimeout: config.remoteDriverPort,
             logLevel: 'debug'
         };
         client = webdriver.remote(driverOptions).init();
+        client.timeoutsImplicitWait(config.remoteDriverPort);
+        client.timeoutsAsyncScript(config.remoteDriverPort);
         client.requestHandler.startPath = "";  // webdriverio defaults it to '/wd/hub';
     });
 
@@ -73,7 +76,10 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         client.executeAsync(script, resultCallback);
     }
 
-    
+    function executeJavascript(script, resultCallback) {
+        client.execute(script, resultCallback);
+    }
+
     it('Switch to Hello OpenFin Main window', function(done) {
         should.exist(client);
         switchWindowByTitle("Hello OpenFin", done);
@@ -159,6 +165,12 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         })
     });
 
+    it('Exit OpenFin Runtime', function (done) {
+        should.exist(client);
+        executeJavascript("fin.desktop.System.exit();", function () {
+            done();
+        });
+    });
 
 
 });
