@@ -31,6 +31,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         client = webdriver.remote(driverOptions).init();
         client.timeoutsImplicitWait(config.remoteDriverPort);
         client.timeoutsAsyncScript(config.remoteDriverPort);
+        client.timeouts("page load", config.remoteDriverPort);
         client.requestHandler.startPath = "";  // webdriverio defaults it to '/wd/hub';
     });
 
