@@ -1,8 +1,8 @@
 hello-openfin-Selenium
 ===========================
-Examples of simple tests for Hello OpenFin app using popular WebDriver JS Bindings, test frameworks and assertion libraries.  
+Included in this repository are simple example tests for the 'Hello OpenFin' app using the popular WebDriver JS Bindings, test frameworks and assertion libraries.  
 
-We have modified the latest Chrome driver to work with OpenFin runtime.  A copy of the chromedriver.exe is included in this project.
+We have modified the latest Chrome driver to work with OpenFin Runtime.  A copy of the chromedriver.exe is included in this project.
 
 Examples for the following WebDriver JS Bindings are included in this project:
  
@@ -12,16 +12,21 @@ Examples for the following WebDriver JS Bindings are included in this project:
 
 ## Guidelines
 
-Since all HTML5 applications in OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.  Test code needs to provides
-OpenFinRVM and HTML5 app configuration to Chromedriver so it can start OpenFin Runtime and the html5 application before tests can run.  config.js
-has location of OpenFinRVM and URL of configuration file for Hello OpenFin app.
+Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.  Test code needs to provide the
+OpenFinRVM and a HTML5 app configuration to Chromedriver so it can start OpenFin Runtime and the html5 application before tests can be run.  config.js
+has the location of OpenFinRVM and the URL for the 'Hello OpenFin' configuration file.
 
-Since there are always multiple applications/windows active in OpenFin Runtime, any test needs to first select the window that is being targeted.  Each test script has function that
-selects the window by matching its title.
+Given there can be multiple applications/windows active in OpenFin Runtime, tests must begin by selecting the targeted window.  Each test script has a function that
+selects the window by matching it's title.
 
-Since OpenFin Runtime is started by OpenFinRVM, Chromedriver does not have direct control of OpenFin Runtime.  Chromedriver must be started before any test runs.
-Once test is complete, it needs to shut down OpenFin Runtime by running javascript code "fin.desktop.System.exit();".  driver.quit() does not shut down OpenFin Runtime since
-it does not have access.   We will improve how Chromedriver controls OpenFin Runtime in the future release.
+Since the OpenFin Runtime is started by OpenFinRVM, Chromedriver does not have direct control of the OpenFin Runtime.  Chromedriver must be started before any test runs.
+Once a test is complete, it needs to shut down OpenFin Runtime by running javascript code "fin.desktop.System.exit();".  driver.quit() does not shut down OpenFin Runtime since
+it does not have access.   Moving forward, we will improve how Chromedriver controls OpenFin Runtime in the future release.
+
+In Summary
+* Tests must target specific windows
+* Chromedriver must be started before tests are run
+* OpenFin RunTime must be shut down after a test is completed
 
 ## Prerequisites
 
