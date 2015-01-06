@@ -67,3 +67,6 @@ The following steps will help you run tests:
  mocha test/[bindings]/Mocha/hello-openfin.js
  ```
 
+## Getting help
+
+Please contact support@openfin.co
