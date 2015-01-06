@@ -55,7 +55,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
 
     function switchWindowByTitle(windowTitle, done) {
         console.log("switchWindowByTitle: ", windowTitle);
-        client.getTabIds(function(err, handles) {
+        client.getTabIds(function (err, handles) {
             should.not.exist(err);
             var handleIndex = 0;
             var checkTitle = function (title) {
@@ -66,7 +66,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
                     if (handleIndex < handles.length) {
                         switchWindow(handles[handleIndex], checkTitle);
                     } else {
-                        throw new Error("Window not found " + windowTitle);
+                        switchWindowByTitle(windowTitle, done);
                     }
                 }
             };
