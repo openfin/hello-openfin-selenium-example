@@ -54,7 +54,6 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     }
 
     function switchWindowByTitle(windowTitle, done) {
-        console.log("switchWindowByTitle: ", windowTitle);
         client.getTabIds(function (err, handles) {
             should.not.exist(err);
             var handleIndex = 0;

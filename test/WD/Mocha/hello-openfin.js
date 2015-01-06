@@ -63,7 +63,7 @@ describe('Hello OpenFin App testing with WD', function() {
                     if (handleIndex < handles.length) {
                         switchWindow(handles[handleIndex], checkTitle);
                     } else {
-                        throw new Error("Window not found " + title);
+                        switchWindowByTitle(windowTitle, done);
                     }
                 }
             };
