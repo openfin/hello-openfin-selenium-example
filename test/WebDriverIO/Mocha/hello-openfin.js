@@ -21,6 +21,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     this.timeout(config.testTimeout);
 
     before(function() {
+        // configure webdriver
         var driverOptions = {
             desiredCapabilities: config.desiredCapabilities,
             host: config.remoteDriverHost,
@@ -43,6 +44,11 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     });
 
 
+    /**
+     * Select a Window
+     * @param windowHandle handle of the window
+     * @param callback callback with window title if selection is successful
+     */
     function switchWindow(windowHandle, callback) {
         client.switchTab(windowHandle, function(err) {
             should.not.exist(err);
@@ -53,6 +59,11 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         });
     }
 
+    /**
+     * Select the window with specified title
+     * @param windowTitle window title
+     * @param done done callback for Mocha
+     */
     function switchWindowByTitle(windowTitle, done) {
         client.getTabIds(function (err, handles) {
             should.not.exist(err);
@@ -65,6 +76,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
                     if (handleIndex < handles.length) {
                         switchWindow(handles[handleIndex], checkTitle);
                     } else {
+                        // the window may not be loaded yet, so call itself again
                         switchWindowByTitle(windowTitle, done);
                     }
                 }
@@ -73,10 +85,25 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         });
     }
 
+    /**
+     * Inject a snippet of JavaScript into the page for execution in the context of the currently selected window.
+     * The executed script is assumed to be asynchronous and must signal that is done by invoking the provided callback, which is always
+     * provided as the final argument to the function. The value to this callback will be returned to the client.
+     *
+     * @param script
+     * @param resultCallback callback with result of the javascript code
+     */
     function executeAsyncJavascript(script, resultCallback) {
         client.executeAsync(script, resultCallback);
     }
 
+    /**
+     * Inject a snippet of JavaScript into the page for execution in the context of the currently selected frame. The executed script is assumed
+     * to be synchronous and the result of evaluating the script is returned to the client.
+     *
+     * @param script
+     * @param resultCallback callback with result of the javascript code
+     */
     function executeJavascript(script, resultCallback) {
         client.execute(script, resultCallback);
     }
