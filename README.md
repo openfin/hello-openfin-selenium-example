@@ -55,7 +55,7 @@ In Summary
 
 The following steps will help you run tests:
 
-1. Start chromedriver.exe located in root directory of this project.  You can specify --verbose comamnd line argument to get more loggings.
+1. Start chromedriver.exe located in root directory of this project.  You can specify --verbose command line argument to get more loggings.
 
 2. Run all tests
  ```bash
