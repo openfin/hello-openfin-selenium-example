@@ -9,6 +9,7 @@ Examples for the following WebDriver JS Bindings are included in this project:
 1. [WebDriverJs / Selenium-WebDriver](http://www.seleniumhq.org/): test/WebDriverJs/Mocha
 2. [WebDriverIO](http://webdriver.io/): test/WebDriverIO/Mocha
 3. [WD](http://admc.io/wd/): test/WD/Mocha
+4. [Protractor](http://angular.github.io/protractor/#/): test/protractor
 
 ## Guidelines
 
@@ -25,10 +26,9 @@ it does not have access.   Moving forward, we will improve how Chromedriver cont
 
 In Summary
 * Tests must target specific windows
-* Chromedriver must be started before tests are run
 * OpenFin RunTime must be shut down after a test is completed
 
-## Prerequisites
+## Prerequisites for Hello OpenFin demo app
 
 1. Install Node.js
 
@@ -65,6 +65,27 @@ The following steps will help you run tests:
 3. Run the test for one bindings (replace [bindings] with WD, WebDriverIO or WebDriverJs)
  ```bash
  mocha test/[bindings]/Mocha/hello-openfin.js
+ ```
+
+## Instructions for Protractor
+
+The example code is written for the Super Calculator Angular demo app that is used in Quick Start of Protractor (http://angular.github.io/protractor/#/).
+
+1. Install Node.js
+
+2. Download/clone this repository and `cd` into it
+
+3. Install all the dependencies
+ ```bash
+ npm install
+
+4. Install Protractor
+npm install -g protractor
+
+5. Run the example
+ ```bash
+ cd test/protractor
+ protractor config.js
  ```
 
 ## Getting help
