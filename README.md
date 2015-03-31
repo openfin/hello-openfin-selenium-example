@@ -49,7 +49,7 @@ In Summary
  npm install -g grunt-cli
  ```
 
-6. Install Hello OpenFin app from http://www.openfin.co/app-gallery.html
+6. Install Hello OpenFin app from https://openfin.co/app-gallery/
 
 ## Usage
 
