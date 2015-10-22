@@ -11,7 +11,7 @@ module.exports = (function () {
             chromeOptions: {
                 extensions: [],
                 debuggerAddress: 'localhost:9090',
-                binary: "hello-openfin-installer.exe",
+                binary: "openfin-installer.exe",
                 args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app.json']
             }
         },
