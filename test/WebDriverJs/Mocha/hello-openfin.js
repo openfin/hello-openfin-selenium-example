@@ -46,7 +46,10 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
             client.getTitle().then(function (title) {
                 callback(title);
             });
-        });
+        }).then(null, function(e) {
+                        // some windows get opened and closed during startup, so not really an error
+                        callback("no such window");
+                    });
     }
 
     /**
@@ -109,7 +112,10 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
             "fin.desktop.System.getVersion(function(v) { callback(v); } );").then(function(v) {
             expect(v).to.equal(config.expectedRuntimeVersion);
-                done();
+                // without the sleep here, sometimes the next step does not go through for some reason
+                client.sleep(1000).then(function () {
+                    done();
+                });
             });
     });
 
@@ -126,7 +132,10 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         expect(client).to.exist;
         expect(notificationButton).to.exist;
         notificationButton.click().then(function () {
-            done();
+            // give time for notification to show up
+            client.sleep(2000).then(function () {
+                done();
+            });
         });
     });
 
@@ -143,7 +152,8 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         expect(client).to.exist;
         expect(cpuInfoButton).to.exist;
         cpuInfoButton.click().then(function () {
-            client.sleep(3000).then(function () {
+            // sleep here so CPU Info window stay shown for us to see
+            client.sleep(2000).then(function () {
                 done();
             });
         });
@@ -167,9 +177,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         expect(client).to.exist;
         expect(cpuInfoExitButton).to.exist;
         cpuInfoExitButton.click().then(function() {
-            client.sleep(3000).then(function() {
-                done();
-            });
+            done();
         });
     });
 

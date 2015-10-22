@@ -11,14 +11,14 @@ module.exports = (function () {
             chromeOptions: {
                 extensions: [],
                 debuggerAddress: 'localhost:9090',
-                binary: "OpenFinRVM.exe",
+                binary: "hello-openfin-installer.exe",
                 args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app.json']
             }
         },
         remoteDriverHost: "localhost",
         remoteDriverPort: 9515,
         testTimeout: 10000,
-        expectedRuntimeVersion: "3.0.1.5"
+        expectedRuntimeVersion: "5.44.7.17"
     };
 
     config.remoteDriverUrl = "http://" + config.remoteDriverHost + ":" + config.remoteDriverPort;

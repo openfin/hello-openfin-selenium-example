@@ -13,7 +13,7 @@ exports.config = {
 		chromeOptions: {
                 extensions: [],
                 debuggerAddress: 'localhost:9090',
-                binary: "../../OpenFinRVM.exe",
+                binary: "../../hello-openfin-installer.exe",
                 args: ['--config=http://test.openf.in/bus/protractor.json']
 		}
 	}, 

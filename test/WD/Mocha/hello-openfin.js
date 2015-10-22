@@ -52,7 +52,11 @@ describe('Hello OpenFin App testing with WD', function() {
             should.not.exist(err);
             client.title(function (err, result) {
                 should.not.exist(err);
-                callback(result);
+                if (err) {
+                    callback(undefined);                    
+                } else {
+                    callback(result);                    
+                }
             });
         });
     }
@@ -118,13 +122,17 @@ describe('Hello OpenFin App testing with WD', function() {
             should.not.exist(err);
             should.exist(version);
             version.should.equal(config.expectedRuntimeVersion);
-            done();
+            // without the sleep here, sometimes the next step does not go through for some reason
+            client.sleep(1000, function(err) {
+                done();
+            });
         });
     });
 
-    it("Click notification button", function() {
+    it("Click notification button", function(done) {
         should.exist(client);
         client.elementByCss("#desktop-notification").click();
+        done();
     });
 
     it("Click CPU Info button", function(done) {

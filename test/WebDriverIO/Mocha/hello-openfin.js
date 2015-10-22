@@ -51,10 +51,12 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
      */
     function switchWindow(windowHandle, callback) {
         client.switchTab(windowHandle, function(err) {
-            should.not.exist(err);
             client.title(function (err, result) {
-                should.not.exist(err);
-                callback(result.value);
+                if (err) {
+                    callback(undefined);
+                } else {
+                    callback(result.value);
+                }
             });
         });
     }
@@ -121,7 +123,10 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
             should.not.exist(err);
             should.exist(result.value);
             result.value.should.equal(config.expectedRuntimeVersion);
-            done();
+            // without the sleep here, sometimes the next step does not go through for some reason
+            client.pause(1000, function() {
+                done();
+            });
         });
     });
 
