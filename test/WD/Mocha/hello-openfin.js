@@ -49,15 +49,17 @@ describe('Hello OpenFin App testing with WD', function() {
      */
     function switchWindow(windowHandle, callback) {
         client.window(windowHandle, function(err) {
-            should.not.exist(err);
-            client.title(function (err, result) {
-                should.not.exist(err);
-                if (err) {
-                    callback(undefined);                    
-                } else {
-                    callback(result);                    
-                }
-            });
+            if (err) {
+                callback(undefined);
+            } else {
+                client.title(function (err, result) {
+                    if (err) {
+                        callback(undefined);                    
+                    } else {
+                        callback(result);                    
+                    }
+                });
+            }
         });
     }
 
@@ -115,6 +117,12 @@ describe('Hello OpenFin App testing with WD', function() {
         switchWindowByTitle("Hello OpenFin", done);
     });
 
+    it('Wait for Hello OpenFin to connect to OpenFin Runtime', function(done) {
+        client.sleep(2000).then(function () {
+            done();
+        });
+    });
+
     it('Verify OpenFin Runtime Version', function(done) {
         should.exist(client);
         executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
@@ -161,5 +169,4 @@ describe('Hello OpenFin App testing with WD', function() {
             done();
         });
     });
-
 });

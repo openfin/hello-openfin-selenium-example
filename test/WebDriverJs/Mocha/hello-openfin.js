@@ -59,6 +59,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
      * @param done done callback for Mocha
      */
     function switchWindowByTitle(windowTitle, done) {
+        console.log("calling switchWindowByTitle");
         client.getAllWindowHandles().then(function (handles) {
             var handleIndex = 0,
                 checkTitle = function (title) {
@@ -105,6 +106,12 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
     it('Switch to Hello OpenFin Main window', function(done) {
         expect(client).to.exist;
         switchWindowByTitle("Hello OpenFin", done);
+    });
+
+    it('Wait for Hello OpenFin to connect to OpenFin Runtime', function(done) {
+        client.sleep(5000).then(function () {
+            done();
+        });
     });
 
     it('Verify OpenFin Runtime Version', function (done) {

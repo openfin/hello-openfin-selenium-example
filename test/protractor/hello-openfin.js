@@ -92,7 +92,7 @@ describe('OpenFin App testing with protractor', function() {
         expect(driver).toBeDefined();
         executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
             "fin.desktop.System.getVersion(function(v) { callback(v); } );").then(function(v) {
-            expect(v).toEqual("5.44.7.17");
+            expect(v).toEqual("5.44.9.2");
                 done();
             });
     });

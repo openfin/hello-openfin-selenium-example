@@ -17,8 +17,8 @@ module.exports = (function () {
         },
         remoteDriverHost: "localhost",
         remoteDriverPort: 9515,
-        testTimeout: 10000,
-        expectedRuntimeVersion: "5.44.7.17"
+        testTimeout: 20000,
+        expectedRuntimeVersion: "5.44.9.2"
     };
 
     config.remoteDriverUrl = "http://" + config.remoteDriverHost + ":" + config.remoteDriverPort;
