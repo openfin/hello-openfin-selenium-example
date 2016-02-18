@@ -82,11 +82,44 @@ describe('OpenFin App testing with protractor', function() {
         return driver.executeScript(script);
     }
 
+    /**
+     *  Check if OpenFin Javascript API fin.desktop.System.getVersion exits
+     *
+    **/
+    function checkFinGetVersion(callback) {
+        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+        "if (fin && fin.desktop && fin.desktop.System && fin.desktop.System.getVersion) { callback(true); } else { callback(false); }").then(function(result) {
+            callback(result);
+        });
+    }
+
+    /**
+     *  Wait for OpenFin Javascript API to be injected 
+     *
+    **/
+    function waitForFinDesktop(readyCallback) {
+        var callback = function(ready) {
+            if (ready === true) {
+                readyCallback();
+            } else {
+                client.sleep(1000, function() {
+                    waitForFinDesktop(readyCallback);
+                });
+            }
+        }
+        checkFinGetVersion(callback);
+    }
+
+
     it('Switch to App Main window', function(done) {
         expect(driver).toBeDefined();
         switchWindowByTitle("Super Calculator", done);
     });
 
+    it('Wait for OpenFin Java adapter ready', function(done) {
+        expect(driver).toBeDefined();
+        waitForFinDesktop(done);
+    });
 
     it('Verify OpenFin Runtime Version', function (done) {
         expect(driver).toBeDefined();
