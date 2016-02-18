@@ -87,6 +87,39 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         });
     }
 
+
+    /**
+     *  Check if OpenFin Javascript API fin.desktop.System.getVersion exits
+     *
+    **/
+    function checkFinGetVersion(callback) {
+        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+        "if (fin && fin.desktop && fin.desktop.System && fin.desktop.System.getVersion) { callback(true); } else { callback(false); }", function(err, result) {
+            if (err) {
+                callback(false);
+            } else {
+                callback(result.value);
+            }
+        });
+    }
+
+    /**
+     *  Wait for OpenFin Javascript API to be injected 
+     *
+    **/
+    function waitForFinDesktop(readyCallback) {
+        var callback = function(ready) {
+            if (ready === true) {
+                readyCallback();
+            } else {
+                client.pause(1000, function() {
+                    waitForFinDesktop(readyCallback);
+                });                
+            }
+        }
+        checkFinGetVersion(callback);
+    }
+
     /**
      * Inject a snippet of JavaScript into the page for execution in the context of the currently selected window.
      * The executed script is assumed to be asynchronous and must signal that is done by invoking the provided callback, which is always
@@ -115,10 +148,9 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         switchWindowByTitle("Hello OpenFin", done);
     });
 
-    it('Wait for Hello OpenFin to connect', function(done) {
-            client.pause(3000, function() {
-                done();
-            });
+    it('Wait for OpenFin Java adapter ready', function(done) {
+        should.exist(client);
+        waitForFinDesktop(done);
     });
 
     it('Verify OpenFin Runtime Version', function(done) {
