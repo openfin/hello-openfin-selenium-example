@@ -59,7 +59,6 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
      * @param done done callback for Mocha
      */
     function switchWindowByTitle(windowTitle, done) {
-        console.log("calling switchWindowByTitle");
         client.getAllWindowHandles().then(function (handles) {
             var handleIndex = 0,
                 checkTitle = function (title) {
@@ -78,6 +77,35 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
             switchWindow(handles[handleIndex], checkTitle);
         });
     }
+
+    /**
+     *  Check if OpenFin Javascript API fin.desktop.System.getVersion exits
+     *
+    **/
+    function checkFinGetVersion(callback) {
+        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+        "if (fin && fin.desktop && fin.desktop.System && fin.desktop.System.getVersion) { callback(true); } else { callback(false); }").then(function(result) {
+            callback(result);
+        });
+    }
+
+    /**
+     *  Wait for OpenFin Javascript API to be injected 
+     *
+    **/
+    function waitForFinDesktop(readyCallback) {
+        var callback = function(ready) {
+            if (ready === true) {
+                readyCallback();
+            } else {
+                client.sleep(1000, function() {
+                    waitForFinDesktop(readyCallback);
+                });
+            }
+        }
+        checkFinGetVersion(callback);
+    }
+
 
     /**
      * Inject a snippet of JavaScript into the page for execution in the context of the currently selected window.
@@ -108,10 +136,9 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         switchWindowByTitle("Hello OpenFin", done);
     });
 
-    it('Wait for Hello OpenFin to connect to OpenFin Runtime', function(done) {
-        client.sleep(5000).then(function () {
-            done();
-        });
+    it('Wait for OpenFin Java adapter ready', function(done) {
+        expect(client).to.exist;
+        waitForFinDesktop(done);
     });
 
     it('Verify OpenFin Runtime Version', function (done) {
