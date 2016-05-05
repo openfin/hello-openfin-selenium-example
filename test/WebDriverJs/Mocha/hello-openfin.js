@@ -23,7 +23,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         var capabilities = webdriver.Capabilities.chrome();
         capabilities.set('chromeOptions', config.desiredCapabilities.chromeOptions);
         client = new webdriver.Builder().usingServer(config.remoteDriverUrl).withCapabilities(capabilities).build();
-        var timeouts = new webdriver.WebDriver.Timeouts(client);
+        var timeouts = client.manage().timeouts();
         timeouts.implicitlyWait(config.testTimeout);
         timeouts.pageLoadTimeout(config.testTimeout);
         timeouts.setScriptTimeout(config.testTimeout);
