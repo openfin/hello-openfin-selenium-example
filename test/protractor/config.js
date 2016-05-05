@@ -20,6 +20,6 @@ exports.config = {
   specs: ['hello-openfin.js'],
   allScriptsTimeout: 10000,
   getPageTimeout: 10000,
-  chromeDriver: '../../chromedriver',
+  chromeDriver: '../../chromedriver.exe',
   directConnect: true
 }
