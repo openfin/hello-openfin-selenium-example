@@ -1,6 +1,7 @@
 /**
  *
  * Example test script for Hello OpenFin App using Mocha, CHAI and Wd (http://admc.io/wd/)
+ * ChromeDriver must be running before test.
  *
  */
 
@@ -11,6 +12,7 @@ var chaiAsPromised = require("chai-as-promised");
 var chai = require('chai');
 chai.use(chaiAsPromised);
 var should = chai.should();
+var spawn = require('child_process').spawn;
 
 var wd = require('wd');
 // enables chai assertion chaining
@@ -21,6 +23,13 @@ var config = require("../../config");
 
 describe('Hello OpenFin App testing with WD', function() {
     var client;
+
+    if (process.platform === 'win32') {
+        var args = ['/c', config.desiredCapabilities.chromeOptions.binary].concat(config.desiredCapabilities.chromeOptions.args);
+        spawn('cmd.exe', args);
+    } else {
+        spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
+    }
 
     this.timeout(config.testTimeout);
 

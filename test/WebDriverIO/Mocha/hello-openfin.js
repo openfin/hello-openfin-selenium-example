@@ -1,9 +1,7 @@
 /**
  *
  * Example test script for Hello OpenFin App using Mocha, CHAI and WebdriverIO (http://webdriver.io)
- *
- * wedriver.io assumes server URL is /wd/hub.  So if testing with chromedriver directly, it needs to run as
- *     chromedriver --url-base=/wd/hub
+ * ChromeDriver must be running before test.
  *
  */
 
@@ -12,7 +10,8 @@
 var should = require('chai').should(),
     webdriver = require('webdriverio'),
     assert = require("assert"),
-    config = require("../../config");
+    config = require("../../config"),
+    spawn = require('child_process').spawn;
 
 
 describe('Hello OpenFin App testing with webdriver.io', function() {
@@ -21,6 +20,13 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     this.timeout(config.testTimeout);
 
     before(function() {
+        if (process.platform === 'win32') {
+            var args = ['/c', config.desiredCapabilities.chromeOptions.binary].concat(config.desiredCapabilities.chromeOptions.args);
+            spawn('cmd.exe', args);
+        } else {
+            spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
+        }
+
         // configure webdriver
         var driverOptions = {
             desiredCapabilities: config.desiredCapabilities,

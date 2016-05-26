@@ -1,5 +1,7 @@
 /**
  * Example test script for Hello OpenFin app using Mocha, CHAI and selenium-webdriver (https://www.npmjs.org/package/selenium-webdriver)
+ * ChromeDriver must be running before test.
+ * 
  */
 
 
@@ -8,7 +10,8 @@ expect = require('chai').expect;
 until = require('selenium-webdriver').until;
 webdriver = require('selenium-webdriver');
 chrome = require('selenium-webdriver/chrome');
-config = require("../../config");
+config = require("../../config"),
+spawn = require('child_process').spawn;
 
 
 describe('Hello OpenFin App testing with selenium-webdriver', function () {
@@ -19,6 +22,13 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
     this.timeout(config.testTimeout);
 
     before(function () {
+        if (process.platform === 'win32') {
+            var args = ['/c', config.desiredCapabilities.chromeOptions.binary].concat(config.desiredCapabilities.chromeOptions.args);
+            spawn('cmd.exe', args);
+        } else {
+            spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
+        }
+
         // configure webdriver
         var capabilities = webdriver.Capabilities.chrome();
         capabilities.set('chromeOptions', config.desiredCapabilities.chromeOptions);

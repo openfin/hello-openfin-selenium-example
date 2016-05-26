@@ -5,4 +5,5 @@ For %%A in ("%filename%") do (
     Set Folder=%%~dpA
 )
 
+cd %Folder%
 start %Folder%OpenFinRVM.exe %*

@@ -7,19 +7,31 @@
 
 "use strict";
 
+var spawn = require('child_process').spawn;
+
+var openfinBinary = "..\\..\\openfin-installer.exe",
+    openfinArgs = ['--config=http://test.openf.in/bus/protractor.json'];
+
 exports.config = {
 	capabilities: {
 		browserName: 'chrome',
 		chromeOptions: {
                 extensions: [],
-                debuggerAddress: 'localhost:9090',
-                binary: "../../openfin-installer.exe",
-                args: ['--config=http://test.openf.in/bus/protractor.json']
+                debuggerAddress: 'localhost:9090'
 		}
 	}, 
   specs: ['hello-openfin.js'],
-  allScriptsTimeout: 10000,
-  getPageTimeout: 10000,
-  chromeDriver: '../../chromedriver.exe',
-  directConnect: true
+  allScriptsTimeout: 20000,
+  getPageTimeout: 20000,
+  seleniumAddress: 'http://localhost:9515',
+  directConnect: false,
+  beforeLaunch: function() {
+    if (process.platform === 'win32') {
+        var args = ['/c', openfinBinary].concat(openfinArgs);
+        console.log(args);    
+        spawn('cmd.exe', args);
+    } else {
+        spawn(openfinBinary, openfinArgs);
+    }
+  }
 }

@@ -1,9 +1,9 @@
 /**
  *
- * Example test script for Super Calculator (http://juliemr.github.io/protractor-demo/index.html) using Protractor 
+ * Example test script for Super Calculator (http://juliemr.github.io/protractor-demo/index.html) using Protractor.
+ * ChromeDriver must be running before test.
  *
  */
-
 
 describe('OpenFin App testing with protractor', function() {
 	"use strict";
@@ -125,7 +125,7 @@ describe('OpenFin App testing with protractor', function() {
         expect(driver).toBeDefined();
         executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
             "fin.desktop.System.getVersion(function(v) { callback(v); } );").then(function(v) {
-            expect(v).toEqual("5.44.9.2");
+            expect(v).toEqual("6.49.11.73");
                 done();
             });
     });

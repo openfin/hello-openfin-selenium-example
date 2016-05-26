@@ -13,8 +13,8 @@ Examples for the following WebDriver JS Bindings are included in this project:
 
 ## Guidelines
 
-Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.  Test code needs to provide the
-OpenFinRVM and a HTML5 app configuration to Chromedriver so it can start OpenFin Runtime and the html5 application before tests can be run.  config.js
+Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.  Test code needs to start
+OpenFinRVM with a HTML5 app configuration so Chromedriver can connect to OpenFin Runtime and the html5 application before tests can be run.  config.js
 has the location of OpenFinRVM and the URL for the 'Hello OpenFin' configuration file.
 
 Given there can be multiple applications/windows active in OpenFin Runtime, tests must begin by selecting the targeted window.  Each test script has a function that
@@ -29,6 +29,8 @@ In Summary
 * OpenFin RunTime must be shut down after a test is completed
 
 ## Prerequisites for Hello OpenFin demo app
+
+1. Install [Chrome driver](https://sites.google.com/a/chromium.org/chromedriver/) 
 
 1. Install Node.js
 
@@ -55,7 +57,7 @@ In Summary
 
 The following steps will help you run tests:
 
-1. Start chromedriver.exe located in root directory of this project.  You can specify --verbose command line argument to get more loggings.
+1. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
 
 2. Run all tests
  ```bash
@@ -82,7 +84,9 @@ The example code is written for the Super Calculator Angular demo app that is us
 4. Install Protractor
 npm install -g protractor
 
-5. Run the example
+5. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
+
+6. Run the example
  ```bash
  cd test/protractor
  protractor config.js
