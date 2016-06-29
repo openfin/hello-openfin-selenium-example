@@ -2,7 +2,7 @@ hello-openfin-Selenium
 ===========================
 Included in this repository are simple example tests for the 'Hello OpenFin' app using the popular WebDriver JS Bindings, test frameworks and assertion libraries.  
 
-We have modified the latest Chrome driver to work with OpenFin Runtime.  A copy of the chromedriver.exe is included in this project.
+We have modified the latest Chrome driver to work with OpenFin Runtime.
 
 Examples for the following WebDriver JS Bindings are included in this project:
  
