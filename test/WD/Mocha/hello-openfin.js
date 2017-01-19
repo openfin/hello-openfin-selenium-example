@@ -24,13 +24,6 @@ var config = require("../../config");
 describe('Hello OpenFin App testing with WD', function() {
     var client;
 
-    if (process.platform === 'win32') {
-        var args = ['/c', config.desiredCapabilities.chromeOptions.binary].concat(config.desiredCapabilities.chromeOptions.args);
-        spawn('cmd.exe', args);
-    } else {
-        spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
-    }
-
     this.timeout(config.testTimeout);
 
     before(function() {

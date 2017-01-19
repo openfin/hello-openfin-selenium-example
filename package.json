@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
       "selenium-webdriver": "^2.44.0",
-      "webdriverio": "^2.3.0",
+      "webdriverio": "2.3.0",
       "wd": "^0.3.10",
       "mocha": "^2.0.1",
       "chai": "^1.9.2",

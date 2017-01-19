@@ -13,9 +13,9 @@ Examples for the following WebDriver JS Bindings are included in this project:
 
 ## Guidelines
 
-Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.  Test code needs to start
-OpenFinRVM with a HTML5 app configuration so Chromedriver can connect to OpenFin Runtime and the html5 application before tests can be run.  config.js
-has the location of OpenFinRVM and the URL for the 'Hello OpenFin' configuration file.
+Since all HTML5 applications in the OpenFin environment need to be started with OpenFin API, chromeDriver.get(URL) is not supported.
+
+ChromeDriver, by default, starts Chrome browser with various Chrome arguments, including remote debugging port, before running tests.  ChromeOptions.setBinary needs to be called so ChromeDriver can start OpenFin Runtime properly.  RunOpenFin.bat is an example batch file that can be set as 'binary'.
 
 Given there can be multiple applications/windows active in OpenFin Runtime, tests must begin by selecting the targeted window.  Each test script has a function that
 selects the window by matching it's title.

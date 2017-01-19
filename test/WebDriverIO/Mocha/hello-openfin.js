@@ -32,14 +32,16 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
             desiredCapabilities: config.desiredCapabilities,
             host: config.remoteDriverHost,
             port: config.remoteDriverPort,
-            waitforTimeout: config.remoteDriverPort,
+            waitforTimeout: config.testTimeout,
             logLevel: 'debug'
         };
         client = webdriver.remote(driverOptions).init();
         client.timeoutsImplicitWait(config.testTimeout);
         client.timeoutsAsyncScript(config.testTimeout);
         client.timeouts("page load", config.testTimeout);
-        client.requestHandler.startPath = "";  // webdriverio defaults it to '/wd/hub';
+        if (!config.remoteDriverPath) {
+            client.requestHandler.startPath = "";  // webdriverio defaults it to '/wd/hub';
+        }
     });
 
     after(function(done) {
