@@ -21,15 +21,19 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
 
     this.timeout(config.testTimeout);
 
-    before(function () {
+    before(function (done) {
         // configure webdriver
         var capabilities = webdriver.Capabilities.chrome();
         capabilities.set('chromeOptions', config.desiredCapabilities.chromeOptions);
         client = new webdriver.Builder().usingServer(config.remoteDriverUrl).withCapabilities(capabilities).build();
         var timeouts = client.manage().timeouts();
-        timeouts.implicitlyWait(config.testTimeout);
-        timeouts.pageLoadTimeout(config.testTimeout);
-        timeouts.setScriptTimeout(config.testTimeout);
+        timeouts.implicitlyWait(config.testTimeout).then(function () {
+            timeouts.pageLoadTimeout(config.testTimeout).then(function () {
+                timeouts.setScriptTimeout(config.testTimeout).then(function () {
+                    done();
+                });
+            });
+        });
     });
 
     after(function (done) {

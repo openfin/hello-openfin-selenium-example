@@ -15,10 +15,10 @@ module.exports = (function () {
             }
         },
         remoteDriverHost: "localhost",
-        remoteDriverPort: 8818,
+        remoteDriverPort: 9515,
         //remoteDriverPath: "/wd/hub",
         testTimeout: 20000,
-        expectedRuntimeVersion: "6.49.16.15"
+        expectedRuntimeVersion: "6.49.17.14"
     };
 
     config.remoteDriverUrl = "http://" + config.remoteDriverHost + ":" + config.remoteDriverPort + 

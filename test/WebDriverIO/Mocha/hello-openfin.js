@@ -20,12 +20,6 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     this.timeout(config.testTimeout);
 
     before(function() {
-        if (process.platform === 'win32') {
-            var args = ['/c', config.desiredCapabilities.chromeOptions.binary].concat(config.desiredCapabilities.chromeOptions.args);
-            spawn('cmd.exe', args);
-        } else {
-            spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
-        }
 
         // configure webdriver
         var driverOptions = {
