@@ -11,7 +11,7 @@ module.exports = (function () {
             chromeOptions: {
                 extensions: [],
                 binary: 'RunOpenFin.bat',
-                args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/app2.json']
+                args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/selenium.json']
             }
         },
         remoteDriverHost: "localhost",
