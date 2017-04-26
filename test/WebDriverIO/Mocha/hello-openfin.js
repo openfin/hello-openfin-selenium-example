@@ -124,7 +124,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         switchWindowByTitle("Hello OpenFin", done);
     });
 
-    it('Wait for OpenFin Java adapter ready', function(done) {
+    it('Wait for OpenFin API ready', function(done) {
         should.exist(client);
         waitForFinDesktop(done);
     });

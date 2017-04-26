@@ -151,7 +151,7 @@ describe('Hello OpenFin App testing with WD', function() {
         switchWindowByTitle("Hello OpenFin", done);
     });
 
-    it('Wait for OpenFin Java adapter ready', function(done) {
+    it('Wait for OpenFin API ready', function(done) {
         should.exist(client);
         waitForFinDesktop(done);
     });
