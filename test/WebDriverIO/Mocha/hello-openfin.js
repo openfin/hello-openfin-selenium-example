@@ -35,10 +35,14 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
             client.requestHandler.startPath = "";  // webdriverio defaults it to '/wd/hub';
         }
         client.init().then(function () {
-            client.timeouts("implicit", config.testTimeout);
-            client.timeouts("script", config.testTimeout);
-            client.timeouts("page load", config.testTimeout);
-            done();
+            client.timeouts("implicit", config.testTimeout).then(function (t) {
+                client.timeouts("script", config.testTimeout).then(function (t2) {
+                    client.timeouts("page load", config.testTimeout).then(function (t3) {
+                        done();
+                    })
+                });
+
+            });
         });
     });
 
