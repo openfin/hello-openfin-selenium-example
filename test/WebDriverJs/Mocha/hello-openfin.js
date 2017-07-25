@@ -97,6 +97,26 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
     }
 
     /**
+     * Check if button with id "desktop-notification" is being shown on screen
+     * @param callback
+     */
+    function checkNotificationButton(callback) {
+        client.findElements(webdriver.By.id("desktop-notification")).then(function(result) {
+            console.log("checkFinGetVersion found desktop-notification");
+            callback(true);
+        }).catch(function () {
+            console.log("checkFinGetVersion did not find desktop-notification");
+            callback(false);
+        });
+
+//       another way to do the same check:
+//        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+//            "if (document && document.getElementById) { callback(!!document.getElementById('desktop-notification')); } else { callback(false); }").then(function(result) {
+//            callback(result);
+//        });
+    }
+
+    /**
      *  Wait for OpenFin Javascript API to be injected 
      *
     **/
@@ -109,8 +129,9 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
                     waitForFinDesktop(readyCallback);
                 });
             }
-        }
-        checkFinGetVersion(callback);
+        };
+//        checkFinGetVersion(callback);
+        checkNotificationButton(callback);
     }
 
 

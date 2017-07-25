@@ -2,6 +2,11 @@
   "name": "hello-openfin-selenium-example",
   "version": "3.0.1",
   "private": true,
+  "scripts": {
+    "testWJS": "mocha test/WebDriverJs/Mocha/hello-openfin.js",
+    "testWIO": "mocha test/WebDriverIO/Mocha/hello-openfin.js",
+    "testWD": "mocha test/WD/Mocha/hello-openfin.js"
+  },
   "dependencies": {
     "selenium-webdriver": "^2.44.0",
     "webdriverio": "^4.6.2",

@@ -18,7 +18,7 @@ module.exports = (function () {
         remoteDriverPort: 9515,
         //remoteDriverPath: "/wd/hub",
         testTimeout: 20000,
-        expectedRuntimeVersion: "7.53.20.20"
+        expectedRuntimeVersion: "7.53.21.6"
     };
 
     config.remoteDriverUrl = "http://" + config.remoteDriverHost + ":" + config.remoteDriverPort + 
