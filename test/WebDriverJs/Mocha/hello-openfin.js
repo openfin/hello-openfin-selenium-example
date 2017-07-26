@@ -50,7 +50,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
      */
     function switchWindow(windowHandle, callback) {
         client.switchTo().window(windowHandle).then(function () {
-            // know issue:  getTtile may hang if the window closed
+            // known issue:  getTitle may hang if the window closed
             // https://bugs.chromium.org/p/chromedriver/issues/detail?id=1132
             client.getTitle().then(function (title) {
                 callback(title);
