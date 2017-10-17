@@ -92,6 +92,17 @@ npm install -g protractor
  protractor config.js
  ```
 
+## Instructions for Selenium Server
+
+Two example scripts are included in this project to demonstrate use of Selenium Server.
+
+1. seleniumHub.bat/sh for launching Selenium Grid hub.
+
+2. seleniumNode.bat for launching Selenium Grid node.
+
+config.js for each test needs to be modified to match IP and port of Selenium hub.
+
+
 ## Getting help
 
 Please contact support@openfin.co
