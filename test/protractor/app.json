@@ -1,0 +1,25 @@
+{
+  "devtools_port": 9090,
+  "startup_app": {
+    "name": "Super Calculator",
+    "url": "http://juliemr.github.io/protractor-demo/index.html",
+    "uuid": "Super Calculator",
+    "applicationIcon": "http://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/img/openfin.ico",
+    "autoShow": true,
+    "defaultHeight": 600,
+    "defaultWidth": 600,
+    "maxWidth": 850,
+    "maxHeight": 850,
+    "defaultTop": 50,
+    "defaultLeft": 50,
+    "resizable": true,
+    "maximizable": true,
+    "frame": true
+  },
+  "runtime": {
+    "arguments": "",
+    "version": "stable"
+  },
+  "shortcut": {
+  }
+}

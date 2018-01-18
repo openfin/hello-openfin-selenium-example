@@ -97,13 +97,13 @@ describe('OpenFin App testing with protractor', function() {
      *  Wait for OpenFin Javascript API to be injected 
      *
     **/
-    function waitForFinDesktop(readyCallback) {
+    function waitForFinRuntime(readyCallback) {
         var callback = function(ready) {
             if (ready === true) {
                 readyCallback();
             } else {
                 client.sleep(1000, function() {
-                    waitForFinDesktop(readyCallback);
+                    waitForFinRuntime(readyCallback);
                 });
             }
         }
@@ -116,16 +116,16 @@ describe('OpenFin App testing with protractor', function() {
         switchWindowByTitle("Super Calculator", done);
     });
 
-    it('Wait for OpenFin Java adapter ready', function(done) {
+    it('Wait for OpenFin Runtime ready', function(done) {
         expect(driver).toBeDefined();
-        waitForFinDesktop(done);
+        waitForFinRuntime(done);
     });
 
     it('Verify OpenFin Runtime Version', function (done) {
         expect(driver).toBeDefined();
         executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
             "fin.desktop.System.getVersion(function(v) { callback(v); } );").then(function(v) {
-            expect(v).toEqual("6.49.11.73");
+            expect(v).toBeDefined();
                 done();
             });
     });

@@ -10,7 +10,7 @@
 var spawn = require('child_process').spawn;
 
 var openfinBinary = "..\\..\\openfin-installer.exe",
-    openfinArgs = ['--config=http://test.openf.in/bus/protractor.json'];
+    openfinArgs = ['--config=http://localhost:9000/app.json'];
 
 exports.config = {
 	capabilities: {
