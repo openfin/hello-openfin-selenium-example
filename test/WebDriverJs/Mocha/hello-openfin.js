@@ -97,7 +97,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         client.switchTo().window(windowName).then(function () {
             done();
         }).catch(function(e) {
-            client.sleep(1000, function() {
+            client.sleep(1000).then(function() {
                 switchWindowByName(windowName, done);
             });
         });
@@ -141,7 +141,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
             if (ready === true) {
                 readyCallback();
             } else {
-                client.sleep(1000, function() {
+                client.sleep(1000).then(function() {
                     waitForFinDesktop(readyCallback);
                 });
             }
