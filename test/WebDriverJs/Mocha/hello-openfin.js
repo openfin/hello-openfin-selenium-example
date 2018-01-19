@@ -88,6 +88,22 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
     }
 
     /**
+     * Select the window with specified title.
+     *
+     * @param windowName window name
+     * @param done done callback for Mocha
+     */
+    function switchWindowByName(windowName, done) {
+        client.switchTo().window(windowName).then(function () {
+            done();
+        }).catch(function(e) {
+            client.sleep(1000, function() {
+                switchWindowByName(windowName, done);
+            });
+        });
+    }
+
+    /**
      *  Check if OpenFin Javascript API fin.desktop.System.getVersion exits
      *
     **/
@@ -104,10 +120,8 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
      */
     function checkNotificationButton(callback) {
         client.findElements(webdriver.By.id("desktop-notification")).then(function(result) {
-            console.log("checkFinGetVersion found desktop-notification");
             callback(true);
         }).catch(function () {
-            console.log("checkFinGetVersion did not find desktop-notification");
             callback(false);
         });
 
@@ -164,6 +178,8 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
     it('Switch to Hello OpenFin Main window', function(done) {
         expect(client).to.exist;
         switchWindowByTitle("Hello OpenFin", done);
+        // The following works too
+        // switchWindowByName('OpenFinHelloWorld', done);
     });
 
     it('Wait for OpenFin API ready', function(done) {
