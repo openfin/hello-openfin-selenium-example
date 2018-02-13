@@ -244,6 +244,21 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         switchWindowByTitle("Hello OpenFin CPU Info", done);
     });
 
+    it('Get window position', function (done) {
+        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+            "fin.desktop.Window.getCurrent().getBounds(function(data) { callback(data); } );").then(function(data) {
+            console.log('window position', data);
+            done();
+        });
+    });
+
+    it('Get window state', function (done) {
+        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+            "fin.desktop.Window.getCurrent().getState(function(data) { callback(data); } );").then(function(data ) {
+            console.log('window state', data);
+            done();
+        });
+    });
 
     it("Find Exit button for CPU Info window", function (done) {
         expect(client).to.exist;
