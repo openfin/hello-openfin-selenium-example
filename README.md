@@ -42,7 +42,7 @@ In Summary
  ```bash
  npm install -g grunt-cli
  ```
-7. Install Hello OpenFin app from https://openfin.co/demos/
+7. Install [Hello OpenFin](https://install.openfin.co/download/?config=https%3A%2F%2Fcdn.openfin.co%2Fdemos%2Fhello%2Fapp.json&fileName=HelloOpenFin&supportEmail=support%40openfin.co) App
 
 ### Usage
 The following steps will help you run tests:
