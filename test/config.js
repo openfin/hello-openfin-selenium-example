@@ -5,13 +5,16 @@
 "use strict";
 
 module.exports = (function () {
+    var isWinOS = (process.platform == 'win32');
+    var launch_target = isWinOS ? 'RunOpenFin.bat' : './RunOpenFin.sh';
+    var launch_config = isWinOS ? 'https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/selenium.json' : './openfin_selenium.json';
     var config = {
         desiredCapabilities: {
             browserName: 'chrome',
             chromeOptions: {
                 extensions: [],
-                binary: 'RunOpenFin.bat',
-                args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/selenium.json']
+                binary: launch_target,
+                args: ['--config=' + launch_config]
             }
         },
         remoteDriverHost: "localhost",
