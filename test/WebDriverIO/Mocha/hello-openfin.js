@@ -27,7 +27,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
             host: config.remoteDriverHost,
             port: config.remoteDriverPort,
             waitforTimeout: config.testTimeout,
-            logLevel: 'debug'
+            logLevel: 'silent'
         };
         client = webdriver.remote(driverOptions);
 
