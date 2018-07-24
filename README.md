@@ -47,7 +47,8 @@ In Summary
 ### Usage
 The following steps will help you run tests:
 1. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
-2. Run all tests
+2. Host test/app.json in a webserver, such as localhost:8000, and update test/config.js with the correct URL.
+3. Run all tests
  ```bash
  grunt
  ```  

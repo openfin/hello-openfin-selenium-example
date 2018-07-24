@@ -11,14 +11,14 @@ module.exports = (function () {
             chromeOptions: {
                 extensions: [],
                 binary: 'RunOpenFin.bat',
-                args: ['--config=https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/selenium.json']
+                args: ['--config=http://localhost:8000/app.json']
             }
         },
         remoteDriverHost: "localhost",
         remoteDriverPort: 9515,
         //remoteDriverPath: "/wd/hub",
         testTimeout: 20000,
-        expectedRuntimeVersion: "7.53.21.6"
+        expectedRuntimeVersion: "9.61.33.22"
     };
 
     config.remoteDriverUrl = "http://" + config.remoteDriverHost + ":" + config.remoteDriverPort + 

@@ -1,0 +1,27 @@
+{
+    "startup_app": {
+        "name": "Hello OpenFin",
+        "url": "https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/index.html",
+        "uuid": "OpenFinHelloWorld",
+        "applicationIcon": "http://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/img/openfin.ico",
+        "autoShow": false,
+        "defaultHeight": 525,
+        "defaultWidth": 395,
+        "maxWidth": 395,
+        "maxHeight": 525,
+        "defaultTop": 50,
+        "defaultLeft": 10,
+        "resizable": false,
+        "maximizable": false,
+        "frame": false,
+        "cornerRounding": {
+            "width": 5,
+            "height": 5
+        }
+    },
+    "runtime": {
+        "arguments": "--v=1 --enable-chromium-window-alert --allow-http-screen-capture ",
+	"version": "9.61.33.22"
+    },
+    "splashScreenImage": "https://cdn.openfin.co/demos/hello/splashscreen/splash_hello.png"
+}
