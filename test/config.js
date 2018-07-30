@@ -5,13 +5,16 @@
 "use strict";
 
 module.exports = (function () {
+    var isWinOS = (process.platform == 'win32');
+    var launch_target = isWinOS ? 'RunOpenFin.bat' : './RunOpenFin.sh';
+    var launch_config = isWinOS ? 'http://localhost:8000/app.json' : './test/app.json';
     var config = {
         desiredCapabilities: {
             browserName: 'chrome',
             chromeOptions: {
                 extensions: [],
-                binary: 'RunOpenFin.bat',
-                args: ['--config=http://localhost:8000/app.json']
+                binary: launch_target,
+                args: ['--config=' + launch_config]
             }
         },
         remoteDriverHost: "localhost",
