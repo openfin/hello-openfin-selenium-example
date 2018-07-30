@@ -5,12 +5,14 @@
 "use strict";
 
 module.exports = (function () {
+    var isWinOS = (process.platform == 'win32');
+    var launch_target = isWinOS ? 'RunOpenFin.bat' : './RunOpenFin.sh';
     var config = {
         desiredCapabilities: {
             browserName: 'chrome',
             chromeOptions: {
                 extensions: [],
-                binary: 'RunOpenFin.bat',
+                binary: launch_target,
                 args: ['--config=http://localhost:8000/app.json']
             }
         },
