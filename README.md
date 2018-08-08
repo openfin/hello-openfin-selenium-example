@@ -43,7 +43,7 @@ In Summary
 The following steps will help you run tests:
 1. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
 2. Host test/app.json in a webserver, such as localhost:8000, and update test/config.js with the correct URL.
-3. Run the test for one bindings (replace [bindings] with WD, WebDriverIO or WebDriverJs)
+3. Run the test for one bindings (replace [bindings] with WD, WIO or WJS)
  ```bash
  npm run test[bindings]
  ```
