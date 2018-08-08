@@ -27,34 +27,25 @@ In Summary
 * OpenFin RunTime must be shut down after a test is completed
 
 ### Prerequisites
-1. Install [Chrome driver](https://sites.google.com/a/chromium.org/chromedriver/) 
-2. Install Node.js
-3. Download/clone this repository and `cd` into it
-4. Install all the dependencies    
+1. Install Node.js
+2. Download/clone this repository and `cd` into it
+3. Install all the dependencies    
  ```bash
  npm install
  ```
-5. Globally install Mocha test framework
+4. For Windows, install [Hello OpenFin](https://install.openfin.co/download/?config=https%3A%2F%2Fcdn.openfin.co%2Fdemos%2Fhello%2Fapp.json&fileName=HelloOpenFin&supportEmail=support%40openfin.co) App
+5. For Mac, install OpenFin CLI
  ```bash
- npm install -g mocha
+ npm install -g openfin-cli
  ```
-6. Globally install grunt command line interface
- ```bash
- npm install -g grunt-cli
- ```
-7. Install [Hello OpenFin](https://install.openfin.co/download/?config=https%3A%2F%2Fcdn.openfin.co%2Fdemos%2Fhello%2Fapp.json&fileName=HelloOpenFin&supportEmail=support%40openfin.co) App
 
 ### Usage
 The following steps will help you run tests:
 1. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
 2. Host test/app.json in a webserver, such as localhost:8000, and update test/config.js with the correct URL.
-3. Run all tests
- ```bash
- grunt
- ```  
 3. Run the test for one bindings (replace [bindings] with WD, WebDriverIO or WebDriverJs)
  ```bash
- mocha test/[bindings]/Mocha/hello-openfin.js
+ npm run test[bindings]
  ```
 
 ## Instructions for Protractor
