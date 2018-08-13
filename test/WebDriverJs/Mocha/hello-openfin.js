@@ -103,6 +103,38 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         });
     }
 
+
+    /**
+     * Retrieve document.readyState
+     * @param callback
+     */
+    function getDocumentReadyState(callback) {
+       executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+           "if (document && document.getElementById) { callback(document.readyState); } else { callback(undefined); }").then(function(result) {
+               console.log(result);
+               callback(result);
+       });
+    }
+
+    /**
+     *  Wait for document.readyState === 'complete'
+     *
+    **/
+    function waitForDocumentReady(readyCallback) {
+        var callback = function(readyState) {
+            if (readyState === 'complete') {
+                readyCallback();
+            } else {
+                client.sleep(1000).then(function() {
+                    waitForDocumentReady(readyCallback);
+                });
+            }
+        };
+        getDocumentReadyState(callback);
+    }
+
+
+
     /**
      *  Check if OpenFin Javascript API fin.desktop.System.getVersion exits
      *
@@ -174,6 +206,11 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
     function executeJavascript(script) {
         return client.executeScript(script);
     }
+
+    it('Wait for document ready', function(done) {
+        expect(client).to.exist;
+        waitForDocumentReady(done);
+    });
 
     it('Switch to Hello OpenFin Main window', function(done) {
         expect(client).to.exist;
