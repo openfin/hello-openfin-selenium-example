@@ -62,7 +62,7 @@ The example code is written for the Super Calculator Angular demo app that is us
 npm install -g protractor
  ```
 5. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
-6. Host app.json on a web server.  The default is http://localhost:9000/app.json.
+6. Host protractor/app.json on a web server.  The default is http://localhost:9000/app.json.
 
 7. Run the example
  ```bash
