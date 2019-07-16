@@ -21,7 +21,8 @@
     },
     "runtime": {
         "arguments": "--v=1 --enable-chromium-window-alert --allow-http-screen-capture ",
-	"version": "10.66.39.25"
+        "version": "10.66.41.18"
     },
-    "splashScreenImage": "https://cdn.openfin.co/demos/hello/splashscreen/splash_hello.png"
+    "splashScreenImage": "https://cdn.openfin.co/demos/hello/splashscreen/splash_hello.png",
+    "shortcut": {}
 }
