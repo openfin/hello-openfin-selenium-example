@@ -20,7 +20,7 @@ selects the window by matching it's title.
 
 Since the OpenFin Runtime is started by OpenFinRVM, Chromedriver does not have direct control of the OpenFin Runtime.  Chromedriver must be started before any test runs.
 Once a test is complete, it needs to shut down OpenFin Runtime by running javascript code "fin.desktop.System.exit();".  driver.quit() does not shut down OpenFin Runtime since
-it does not have access.   Moving forward, we will improve how Chromedriver controls OpenFin Runtime in the future release.
+it does not have access.
 
 In Summary
 * Tests must target specific windows
