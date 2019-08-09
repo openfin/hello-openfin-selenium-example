@@ -14,7 +14,10 @@ module.exports = (function () {
             chromeOptions: {
                 extensions: [],
                 binary: launch_target,
-                args: ['--config=' + launch_config]
+                args: ['--config=' + launch_config],
+                // if devtools_port is set in app.json and ChromeDriver needs to communicate on that port,  set the following propery
+                // to be the same as devtools_port
+                //debuggerAddress: 'localhost:9090'
             }
         },
         remoteDriverHost: "localhost",
