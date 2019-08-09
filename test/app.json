@@ -1,4 +1,5 @@
 {
+    "devtools_port": 9090,
     "startup_app": {
         "name": "Hello OpenFin",
         "url": "https://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/index.html",

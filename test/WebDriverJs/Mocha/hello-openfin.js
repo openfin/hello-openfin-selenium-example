@@ -23,6 +23,11 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
 
     before(function (done) {
         // configure webdriver
+        if (config.desiredCapabilities.chromeOptions.debuggerAddress) {
+            // if debuggerAddress is set,  ChromeDriver does NOT start "binary" and assumes it is already running,
+            // it needs to start separately
+            spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
+        }
         var capabilities = webdriver.Capabilities.chrome();
         capabilities.set('chromeOptions', config.desiredCapabilities.chromeOptions);
         client = new webdriver.Builder().usingServer(config.remoteDriverUrl).withCapabilities(capabilities).build();

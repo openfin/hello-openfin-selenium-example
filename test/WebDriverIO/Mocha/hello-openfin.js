@@ -20,6 +20,11 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     this.timeout(config.testTimeout);
 
     before(function(done) {
+        if (config.desiredCapabilities.chromeOptions.debuggerAddress) {
+            // if debuggerAddress is set,  ChromeDriver does NOT start "binary" and assumes it is already running,
+            // it needs to start separately
+            spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
+        }
 
         // configure webdriver
         var driverOptions = {
