@@ -52,22 +52,17 @@ The following steps will help you run tests:
 The example code is written for the Super Calculator Angular demo app that is used in Quick Start of Protractor (http://angular.github.io/protractor/#/).
 
 1. Install Node.js
-2. Download/clone this repository and `cd` into it
+2. Download/clone this repository and `cd` to test/protractor directory
 3. Install all the dependencies
  ```bash
  npm install
  ```
-4. Install Protractor
- ```bash
-npm install -g protractor
- ```
-5. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
-6. Host protractor/app.json on a web server.  The default is http://localhost:9000/app.json.
+4. Start chromedriver.exe.  You can specify --verbose command line argument to get more loggings.
+5. Host protractor/app.json on a web server.  The default is http://localhost:9000/app.json.
 
-7. Run the example
+6. Run the example
  ```bash
- cd test/protractor
- protractor config.js
+ npm run test
  ```
 
 ## Instructions for Selenium Server

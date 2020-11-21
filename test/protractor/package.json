@@ -1,0 +1,10 @@
+{
+  "name": "openfin-protractor-example",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "protractor config.js"
+  },
+  "dependencies": {
+    "protractor": "7.0.0"
+  }
+}

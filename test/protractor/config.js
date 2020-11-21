@@ -9,7 +9,7 @@
 
 var spawn = require('child_process').spawn;
 
-var openfinBinary = "..\\..\\openfin-installer.exe",
+var openfinBinary = "..\\..\\RunOpenFin.bat",
     openfinArgs = ['--config=http://localhost:9000/app.json'];
 
 exports.config = {

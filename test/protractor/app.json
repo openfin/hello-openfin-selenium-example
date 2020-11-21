@@ -1,7 +1,6 @@
 {
   "devtools_port": 9090,
   "startup_app": {
-    "name": "Super Calculator",
     "url": "http://juliemr.github.io/protractor-demo/index.html",
     "uuid": "Super Calculator",
     "applicationIcon": "http://demoappdirectory.openf.in/desktop/config/apps/OpenFin/HelloOpenFin/img/openfin.ico",
@@ -18,6 +17,6 @@
   },
   "runtime": {
     "arguments": "",
-    "version": "10.66.39.29"
+    "version": "stable"
   }
 }
