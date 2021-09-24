@@ -15,11 +15,11 @@ var should = require('chai').should(),
 
 
 describe('Hello OpenFin App testing with webdriver.io', function() {
-    var client, notificationButton, cpuInfoButton, cpuInfoExitButton;
+    let client, notificationButton, cpuInfoButton, cpuInfoExitButton;
 
     this.timeout(config.testTimeout);
 
-    before(function(done) {
+    before(async ()=> {
         if (config.desiredCapabilities.chromeOptions.debuggerAddress) {
             // if debuggerAddress is set,  ChromeDriver does NOT start "binary" and assumes it is already running,
             // it needs to start separately
@@ -27,32 +27,32 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         }
 
         // configure webdriver
-        var driverOptions = {
-            desiredCapabilities: config.desiredCapabilities,
-            host: config.remoteDriverHost,
+        const driverOptions = {
+            capabilities: {
+                browserName: 'chrome',
+                'goog:chromeOptions': {
+                    extensions: [],
+                    debuggerAddress: 'localhost:9090'    
+                }
+            },
+            hostname: config.remoteDriverHost,
             port: config.remoteDriverPort,
             waitforTimeout: config.testTimeout,
-            logLevel: 'verbose'  // http://webdriver.io/guide/getstarted/configuration.html
+            connectionRetryTimeout: 900000,
+            connectionRetryCount: 1,        
+            logLevel: 'trace'
         };
-        client = webdriver.remote(driverOptions);
-
-        if (!config.remoteDriverPath) {
-            client.requestHandler.startPath = "";  // webdriverio defaults it to '/wd/hub';
-        }
-        client.init().then(function () {
-            client.timeouts("implicit", config.testTimeout).then(function (t) {
-                client.timeouts("script", config.testTimeout).then(function (t2) {
-                    client.timeouts("page load", config.testTimeout).then(function (t3) {
-                        done();
-                    })
-                });
-
-            });
-        });
+        console.log(driverOptions);
+        client = await webdriver.remote(driverOptions);
+        await client.setTimeout({
+            'implicit': config.testTimeout,
+            'pageLoad': config.testTimeout,
+            'script': config.testTimeout
+        });        
     });
 
-    after(function() {
-        return client.end();
+    after(async () => {
+        await client.deleteSession();
     });
 
 
@@ -61,37 +61,31 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
      * @param windowHandle handle of the window
      * @param callback callback with window title if selection is successful
      */
-    function switchWindow(windowHandle, callback) {
-        client.switchTab(windowHandle).then(function () {
-            client.getTitle().then(function (title) {
-                callback(title);
-            });
-        });
+    async function switchWindow(windowHandle, callback) {
+        await client.switchToWindow(windowHandle);
+        const title = await client.getTitle();
+        callback(title);
     }
 
     /**
      * Select the window with specified title
      * @param windowTitle window title
-     * @param done done callback for Mocha
      */
-    function switchWindowByTitle(windowTitle, done) {
-        client.getTabIds().then(function (tabIds) {
-            var handleIndex = 0;
-            var checkTitle = function (title) {
-                if (title === windowTitle) {
-                    done();
+    async function switchWindowByTitle(windowTitle) {
+        const handles = await client.getWindowHandles();
+        let handleIndex = 0;
+        let checkTitle = async (title) => {
+            if (title !== windowTitle) {
+                handleIndex++;
+                if (handleIndex < handles.length) {
+                    await switchWindow(handles[handleIndex], checkTitle);
                 } else {
-                    handleIndex++;
-                    if (handleIndex < tabIds.length) {
-                        switchWindow(tabIds[handleIndex], checkTitle);
-                    } else {
-                        // the window may not be loaded yet, so call itself again
-                        switchWindowByTitle(windowTitle, done);
-                    }
+                    // the window may not be loaded yet, so call itself again
+                    await switchWindowByTitle(windowTitle);
                 }
-            };
-            switchWindow(tabIds[handleIndex], checkTitle);
-        });
+            }
+        };
+        await switchWindow(handles[handleIndex], checkTitle);
     }
 
 
@@ -99,125 +93,105 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
      *  Check if OpenFin Javascript API fin.desktop.System.getVersion exits
      *
     **/
-    function checkFinGetVersion(callback) {
-        client.executeAsync(function (done) {
+    async function checkFinGetVersion(callback) {
+        const result = await client.executeAsync(function (done) {
             if (fin && fin.desktop && fin.desktop.System && fin.desktop.System.getVersion) {
                 done(true);
             } else {
                 done(false);
             }
-        }).then(function (result) {
-            callback(result.value);
         });
+        callback(result);
     }
 
     /**
      *  Wait for OpenFin Javascript API to be injected 
      *
     **/
-    function waitForFinDesktop(readyCallback) {
-        var callback = function(ready) {
+     async function waitForFinDesktop() {
+        var callback = async (ready) => {
             if (ready === true) {
                 readyCallback();
             } else {
-                client.pause(1000).then(function() {
-                    waitForFinDesktop(readyCallback);
-                });                
+                await client.pause(1000);
+                await waitForFinDesktop();
             }
         };
-        checkFinGetVersion(callback);
+        await checkFinGetVersion(callback);
     }
 
-    it('Switch to Hello OpenFin Main window', function(done) {
+    it('Switch to Hello OpenFin Main window', async () => {
         should.exist(client);
-        switchWindowByTitle("Hello OpenFin", done);
+        await switchWindowByTitle("Hello OpenFin");
     });
 
-    it('Wait for OpenFin API ready', function(done) {
+    it('Wait for OpenFin API ready', async () => {
         should.exist(client);
-        waitForFinDesktop(done);
+        await waitForFinDesktop();
     });
 
-    it('Verify OpenFin Runtime Version', function(done) {
+    it('Verify OpenFin Runtime Version', async () => {
         should.exist(client);
-        client.executeAsync(function (done) {
-            fin.desktop.System.getVersion(function(v) { console.log(v); done(v); } );
-        }).then(function (result) {
-            should.exist(result.value);
-            result.value.should.equal(config.expectedRuntimeVersion);
-            done();
+        const result = await client.executeAsync(function (donedone) {
+            fin.desktop.System.getVersion(function(v) { console.log(v); donedone(v); } );
         });
+        should.exist(result);
     });
 
-    it("Find notification button", function(done) {
+    it("Find notification button", async () => {
         should.exist(client);
-        client.element("#desktop-notification").then(function(result) {
-            should.exist(result.value);
-            notificationButton = result.value;
-            done();
-        });
+        const button = await client.$("#desktop-notification");
+        should.exist(button);
+        notificationButton = button;
     });
 
-    it("Click notification button", function(done) {
+    it("Click notification button", async () => {
         should.exist(client);
         should.exist(notificationButton);
-        client.elementIdClick(notificationButton.ELEMENT).then(function(result) {
-            done();
-        });
+        await notificationButton.click();
     });
 
 
-    it("Find CPU Info button", function(done) {
+    it("Find CPU Info button", async () => {
         should.exist(client);
-        client.element("#cpu-info").then(function(result) {
-            should.exist(result.value);
-            cpuInfoButton = result.value;
-            done();
-        });
+        const button = await client.$("#cpu-info");
+        should.exist(button);
+        cpuInfoButton = button;
     });
 
-    it("Click CPU Info button", function(done) {
+    it("Click CPU Info button", async () => {
         should.exist(client);
         should.exist(cpuInfoButton);
-        client.elementIdClick(cpuInfoButton.ELEMENT).then(function(result) {
-            client.pause(3000).then(function() {  // pause just for demo purpose so we can see the window
-                done();
-            });
-        })
+        await cpuInfoButton.click();
+        await client.pause(3000);  // pause just for demo purpose so we can see the window
     });
 
 
-    it('Switch to CPU Info window', function(done) {
+    it('Switch to CPU Info window', async () => {
         should.exist(client);
-        switchWindowByTitle("Hello OpenFin CPU Info", done);
+        await switchWindowByTitle("Hello OpenFin CPU Info");
     });
 
 
-    it("Find Exit button for CPU Info window", function(done) {
+    it("Find Exit button for CPU Info window", async () => {
         should.exist(client);
-        client.element("#close-app").then(function(result) {
-            should.exist(result.value);
-            cpuInfoExitButton = result.value;
-            done();
-        });
+        const button = client.$("#close-app");
+        should.exist(button);
+        cpuInfoExitButton = button;
     });
 
-    it("Click CPU Info Exit button", function(done) {
+    it("Click CPU Info Exit button", async () => {
         should.exist(client);
         should.exist(cpuInfoExitButton);
-        client.elementIdClick(cpuInfoExitButton.ELEMENT).then(function(result) {
-            done();
-        })
+        await cpuInfoExitButton.click();
     });
 
-    it('Exit OpenFin Runtime', function (done) {
+    it('Exit OpenFin Runtime', async () => {
         should.exist(client);
-        client.execute(function () {
+        await client.execute(function () {
             fin.desktop.System.exit();
         });
-        client.pause(1000).then(function() {  // pause here to give Runtime time to exit
-            done();
-        });
+        await client.pause(1000);  // pause here to give Runtime time to exit
     });
 
 });

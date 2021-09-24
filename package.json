@@ -8,10 +8,10 @@
     "testWD": "mocha test/WD/Mocha/hello-openfin.js"
   },
   "dependencies": {
-    "selenium-webdriver": "^2.44.0",
-    "webdriverio": "^4.6.2",
+    "selenium-webdriver": "4.0.0-rc-1",
+    "webdriverio": "7.13.0",
     "wd": "^0.3.10",
-    "mocha": "^2.0.1",
+    "mocha": "9.1.1",
     "chai": "^1.9.2",
     "chai-as-promised": "^4.1.1",
     "should": "^4.1.0",
@@ -22,4 +22,3 @@
     "load-grunt-tasks": "^1.0.0"
   }
 }
-
