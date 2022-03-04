@@ -168,7 +168,6 @@ describe('Hello OpenFin App testing with WD', function() {
         "fin.desktop.System.getVersion(function(v) { callback(v); } );", function(err, version) {
             should.not.exist(err);
             should.exist(version);
-            version.should.equal(config.expectedRuntimeVersion);
             // without the sleep here, sometimes the next step does not go through for some reason
             client.sleep(1000, function(err) {
                 done();

@@ -111,7 +111,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
      async function waitForFinDesktop() {
         var callback = async (ready) => {
             if (ready === true) {
-                readyCallback();
+                return;
             } else {
                 await client.pause(1000);
                 await waitForFinDesktop();

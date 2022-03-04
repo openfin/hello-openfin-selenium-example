@@ -21,31 +21,30 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
 
     this.timeout(config.testTimeout);
 
-    before(function (done) {
+    before(async function () {
         // configure webdriver
         if (config.desiredCapabilities.chromeOptions.debuggerAddress) {
             // if debuggerAddress is set,  ChromeDriver does NOT start "binary" and assumes it is already running,
             // it needs to start separately
             spawn(config.desiredCapabilities.chromeOptions.binary, config.desiredCapabilities.chromeOptions.args);
         }
-        var capabilities = webdriver.Capabilities.chrome();
-        capabilities.set('chromeOptions', config.desiredCapabilities.chromeOptions);
-        client = new webdriver.Builder().usingServer(config.remoteDriverUrl).withCapabilities(capabilities).build();
-        var timeouts = client.manage().timeouts();
-        timeouts.implicitlyWait(config.testTimeout).then(function () {
-            timeouts.pageLoadTimeout(config.testTimeout).then(function () {
-                timeouts.setScriptTimeout(config.testTimeout).then(function () {
-                    done();
-                });
-            });
-        });
+
+        const capabilities = webdriver.Capabilities.chrome();
+        const  chromeOptions = {
+            extensions: [],
+            debuggerAddress: config.desiredCapabilities.chromeOptions.debuggerAddress
+        };
+
+        capabilities.set('goog:chromeOptions', chromeOptions);
+        client = await new webdriver.Builder().usingServer(config.remoteDriverUrl).withCapabilities(capabilities).build();
+        var timeouts = await client.manage().getTimeouts();
+        timeouts.implicit = config.testTimeout;
+        timeouts.pageLoad = config.testTimeout;
+        timeouts.script = config.testTimeout;
     });
 
-    after(function (done) {
-        // needs "done" here to give time to run .end()
-        client.quit().then(function () {
-            done();
-        });
+    after(async function () {
+        await client.quit();
     });
 
     /**
@@ -53,61 +52,33 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
      * @param windowHandle handle of the window
      * @param callback callback with window title if selection is successful
      */
-    function switchWindow(windowHandle, callback) {
-        client.switchTo().window(windowHandle).then(function () {
-            // known issue:  getTitle may hang if the window closed
-            // https://bugs.chromium.org/p/chromedriver/issues/detail?id=1132
-            client.getTitle().then(function (title) {
-                callback(title);
-            });
-        }).then(null, function(e) {
-                        // some windows get opened and closed during startup, so not really an error
-                        callback("no such window");
-                    });
+    async function switchWindow(windowHandle, callback) {
+        await client.switchTo().window(windowHandle);
+        const title = await client.getTitle();
+        callback(title);
     }
 
     /**
      * Select the window with specified title.
      *
      * @param windowTitle window title
-     * @param done done callback for Mocha
      */
-    function switchWindowByTitle(windowTitle, done) {
-        client.getAllWindowHandles().then(function (handles) {
-            var handleIndex = 0,
-                checkTitle = function (title) {
-                if (title === windowTitle) {
-                        done();
+    async function switchWindowByTitle(windowTitle) {
+        const handles = await client.getAllWindowHandles();
+        let handleIndex = 0;
+        let checkTitle = async (title) => {
+            if (title !== windowTitle) {
+                handleIndex++;
+                if (handleIndex < handles.length) {
+                    await switchWindow(handles[handleIndex], checkTitle);
                 } else {
-                    handleIndex += 1;
-                    if (handleIndex < handles.length) {
-                        switchWindow(handles[handleIndex], checkTitle);
-                    } else {
-                        // the window may not be loaded yet, so call itself again
-                        switchWindowByTitle(windowTitle, done);
-                    }
+                    // the window may not be loaded yet, so call itself again
+                    await switchWindowByTitle(windowTitle);
                 }
-            };
-            switchWindow(handles[handleIndex], checkTitle);
-        });
+            }
+        };
+        await switchWindow(handles[handleIndex], checkTitle);
     }
-
-    /**
-     * Select the window with specified title.
-     *
-     * @param windowName window name
-     * @param done done callback for Mocha
-     */
-    function switchWindowByName(windowName, done) {
-        client.switchTo().window(windowName).then(function () {
-            done();
-        }).catch(function(e) {
-            client.sleep(1000).then(function() {
-                switchWindowByName(windowName, done);
-            });
-        });
-    }
-
 
     /**
      * Retrieve document.readyState
@@ -153,38 +124,25 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
 
     /**
      * Check if button with id "desktop-notification" is being shown on screen
-     * @param callback
      */
-    function checkNotificationButton(callback) {
-        client.findElements(webdriver.By.id("desktop-notification")).then(function(result) {
-            callback(true);
-        }).catch(function () {
-            callback(false);
-        });
-
-//       another way to do the same check:
-//        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
-//            "if (document && document.getElementById) { callback(!!document.getElementById('desktop-notification')); } else { callback(false); }").then(function(result) {
-//            callback(result);
-//        });
+    async function checkNotificationButton(callback) {
+        return  callback(!!(await client.findElement(webdriver.By.id("desktop-notification"))));
     }
 
     /**
      *  Wait for OpenFin Javascript API to be injected 
      *
     **/
-    function waitForFinDesktop(readyCallback) {
-        var callback = function(ready) {
+    async function waitForFinDesktop(readyCallback) {
+        var callback = async (ready) => {
             if (ready === true) {
-                readyCallback();
+                return;
             } else {
-                client.sleep(1000).then(function() {
-                    waitForFinDesktop(readyCallback);
-                });
+                await client.sleep(1000);
+                await waitForFinDesktop();
             }
         };
-//        checkFinGetVersion(callback);
-        checkNotificationButton(callback);
+        await checkNotificationButton(callback);
     }
 
 
@@ -197,7 +155,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
      * @returns {*|!webdriver.promise.Promise.<T>}
      *
      */
-    function executeAsyncJavascript(script) {
+    async function executeAsyncJavascript(script) {
         return client.executeAsyncScript(script);
     }
 
@@ -208,7 +166,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
      * @param script
      * @returns {*|!webdriver.promise.Promise.<T>}
      */
-    function executeJavascript(script) {
+    async function executeJavascript(script) {
         return client.executeScript(script);
     }
 
@@ -217,112 +175,83 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
         waitForDocumentReady(done);
     });
 
-    it('Switch to Hello OpenFin Main window', function(done) {
+    it('Switch to Hello OpenFin Main window', async function() {
         expect(client).to.exist;
-        switchWindowByTitle("Hello OpenFin", done);
-        // The following works too
-        // switchWindowByName('OpenFinHelloWorld', done);
+        await switchWindowByTitle("Hello OpenFin");
     });
 
-    it('Wait for OpenFin API ready', function(done) {
+    it('Wait for OpenFin API ready', async function() {
         expect(client).to.exist;
-        waitForFinDesktop(done);
+        await waitForFinDesktop();
     });
 
-    it('Verify OpenFin Runtime Version', function (done) {
+    it('Verify OpenFin Runtime Version', async function () {
         expect(client).to.exist;
-        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
-            "fin.desktop.System.getVersion(function(v) { callback(v); } );").then(function(v) {
-            expect(v).to.equal(config.expectedRuntimeVersion);
-                // without the sleep here, sometimes the next step does not go through for some reason
-                client.sleep(1000).then(function () {
-                    done();
-                });
-            });
+        const v = await executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+            "fin.desktop.System.getVersion(function(v) { callback(v); } );");
+        expect(v).to.exist;
     });
 
 
-    it("Find notification button", function (done) {
+    it("Find notification button", async function () {
         expect(client).to.exist;
-        client.findElements(webdriver.By.id("desktop-notification")).then(function(result) {
-            notificationButton = result[0];
-            done();
-        });
+        notificationButton = await client.findElement(webdriver.By.id("desktop-notification"));
     });
 
-    it("Click notification button", function (done) {
+    it("Click notification button", async function () {
         expect(client).to.exist;
         expect(notificationButton).to.exist;
-        notificationButton.click().then(function () {
-            // give time for notification to show up
-            client.sleep(2000).then(function () {
-                done();
-            });
-        });
+        await notificationButton.click();
+        // give time for notification to show up
+        await client.sleep(2000);
     });
 
 
-    it("Find CPU Info button", function (done) {
+    it("Find CPU Info button", async function () {
         expect(client).to.exist;
-        client.findElements(webdriver.By.id("cpu-info")).then(function(result) {
-            cpuInfoButton = result[0];
-            done();
-        });
+        cpuInfoButton = client.findElement(webdriver.By.id("cpu-info"));
+        expect(cpuInfoButton).to.exist;
     });
 
-    it("Click CPU Info button", function (done) {
+    it("Click CPU Info button", async function () {
         expect(client).to.exist;
         expect(cpuInfoButton).to.exist;
-        cpuInfoButton.click().then(function () {
-            // sleep here so CPU Info window stay shown for us to see
-            client.sleep(2000).then(function () {
-                done();
-            });
-        });
+        await cpuInfoButton.click();
+        // sleep here so CPU Info window stay shown for us to see
+        await client.sleep(2000);
     });
 
-    it('Switch to CPU Info window', function (done) {
+    it('Switch to CPU Info window', async function () {
         expect(client).to.exist;
-        switchWindowByTitle("Hello OpenFin CPU Info", done);
+        await switchWindowByTitle("Hello OpenFin CPU Info");
     });
 
-    it('Get window position', function (done) {
-        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
-            "fin.desktop.Window.getCurrent().getBounds(function(data) { callback(data); } );").then(function(data) {
-            console.log('window position', data);
-            done();
-        });
+    it('Get window position', async function () {
+        const data = executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+            "fin.desktop.Window.getCurrent().getBounds(function(data) { callback(data); } );");
+        expect(data).to.exist;
     });
 
-    it('Get window state', function (done) {
-        executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
-            "fin.desktop.Window.getCurrent().getState(function(data) { callback(data); } );").then(function(data ) {
-            console.log('window state', data);
-            done();
-        });
+    it('Get window state', async function () {
+        const data = executeAsyncJavascript("var callback = arguments[arguments.length - 1];" +
+            "fin.desktop.Window.getCurrent().getState(function(data) { callback(data); } );");
+        expect(data).to.exist;
     });
 
-    it("Find Exit button for CPU Info window", function (done) {
+    it("Find Exit button for CPU Info window", async function () {
         expect(client).to.exist;
-        client.findElements(webdriver.By.id("close-app")).then(function(result) {
-            cpuInfoExitButton = result[0];
-            done();
-        });
+        cpuInfoExitButton = client.findElement(webdriver.By.id("close-app"));
     });
 
-    it("Click CPU Info Exit button", function (done) {
+    it("Click CPU Info Exit button", async function () {
         expect(client).to.exist;
         expect(cpuInfoExitButton).to.exist;
-        cpuInfoExitButton.click().then(function() {
-            done();
-        });
+        await cpuInfoExitButton.click();
     });
 
-    it('Exit OpenFin Runtime', function (done) {
+    it('Exit OpenFin Runtime', async function () {
         expect(client).to.exist;
-        executeJavascript("fin.desktop.System.exit();").then(function () {
-            done();
-        });
+        await executeJavascript("fin.desktop.System.exit();");
     });
 
 
