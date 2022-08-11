@@ -64,7 +64,7 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
     async function switchWindow(windowHandle, callback) {
         await client.switchToWindow(windowHandle);
         const title = await client.getTitle();
-        callback(title);
+        await callback(title);
     }
 
     /**
@@ -137,20 +137,6 @@ describe('Hello OpenFin App testing with webdriver.io', function() {
         });
         should.exist(result);
     });
-
-    it("Find notification button", async () => {
-        should.exist(client);
-        const button = await client.$("#desktop-notification");
-        should.exist(button);
-        notificationButton = button;
-    });
-
-    it("Click notification button", async () => {
-        should.exist(client);
-        should.exist(notificationButton);
-        await notificationButton.click();
-    });
-
 
     it("Find CPU Info button", async () => {
         should.exist(client);

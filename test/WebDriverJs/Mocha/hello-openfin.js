@@ -55,7 +55,7 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
     async function switchWindow(windowHandle, callback) {
         await client.switchTo().window(windowHandle);
         const title = await client.getTitle();
-        callback(title);
+        await callback(title);
     }
 
     /**
@@ -191,21 +191,6 @@ describe('Hello OpenFin App testing with selenium-webdriver', function () {
             "fin.desktop.System.getVersion(function(v) { callback(v); } );");
         expect(v).to.exist;
     });
-
-
-    it("Find notification button", async function () {
-        expect(client).to.exist;
-        notificationButton = await client.findElement(webdriver.By.id("desktop-notification"));
-    });
-
-    it("Click notification button", async function () {
-        expect(client).to.exist;
-        expect(notificationButton).to.exist;
-        await notificationButton.click();
-        // give time for notification to show up
-        await client.sleep(2000);
-    });
-
 
     it("Find CPU Info button", async function () {
         expect(client).to.exist;
