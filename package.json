@@ -10,14 +10,14 @@
   "dependencies": {
     "selenium-webdriver": "4.4.0",
     "webdriverio": "7.13.0",
-    "wd": "^0.3.10",
+    "wd": "^1.14.0",
     "mocha": "9.1.1",
     "chai": "^1.9.2",
     "chai-as-promised": "^4.1.1",
     "should": "^4.1.0",
     "grunt": "^0.4.5",
     "grunt-clear": "^0.2.1",
-    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.12.2",
     "load-grunt-tasks": "^1.0.0"
   }
