@@ -75,6 +75,7 @@ config.js for each test needs to be modified to match IP and port of Selenium hu
 ## Disclaimers
 * This is a starter example and intended to demonstrate to app providers a sample of how to approach an implementation. 
 * This is an open source project and all are encouraged to contribute.
+* As of runtime 29+,  a new, single renderer process can appear if using view visibility settings in platfowm windows. This process will always have the URL `openfin://blank` and can be filtered out if desired.
 
 ## License
 MIT
